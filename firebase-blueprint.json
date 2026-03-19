@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "Stores user profile information and subscription status.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique ID of the user." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "photoURL": { "type": "string", "format": "uri", "description": "The user's profile photo URL." },
+        "isPremium": { "type": "boolean", "description": "Whether the user has a premium subscription." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user profile was created." }
+      },
+      "required": ["uid", "email", "displayName", "isPremium", "createdAt"]
+    },
+    "customers": {
+      "title": "Customer",
+      "description": "Stores customer contact information and notes.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the customer." },
+        "name": { "type": "string", "description": "The customer's full name." },
+        "phone": { "type": "string", "description": "The customer's phone number." },
+        "email": { "type": "string", "format": "email", "description": "The customer's email address." },
+        "notes": { "type": "string", "description": "Additional notes about the customer." },
+        "userId": { "type": "string", "description": "The ID of the user who owns this customer." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the customer was added." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the customer was last updated." }
+      },
+      "required": ["name", "phone", "email", "userId", "createdAt", "updatedAt"]
+    },
+    "invoices": {
+      "title": "Invoice",
+      "description": "Stores invoice details and payment status.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the invoice." },
+        "customerId": { "type": "string", "description": "The ID of the customer." },
+        "customerName": { "type": "string", "description": "The name of the customer (denormalized)." },
+        "amount": { "type": "number", "description": "The invoice amount." },
+        "dueDate": { "type": "string", "format": "date-time", "description": "The payment due date." },
+        "description": { "type": "string", "description": "Description of the goods or services." },
+        "status": { "type": "string", "enum": ["Paid", "Pending", "Overdue"], "description": "The payment status." },
+        "userId": { "type": "string", "description": "The ID of the user who owns this invoice." },
+        "paymentLink": { "type": "string", "format": "uri", "description": "The direct payment link." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the invoice was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the invoice was last updated." }
+      },
+      "required": ["customerId", "customerName", "amount", "dueDate", "status", "userId", "createdAt", "updatedAt"]
+    },
+    "invoice_templates": {
+      "title": "Invoice Template",
+      "description": "Stores reusable invoice templates.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the template." },
+        "name": { "type": "string", "description": "The name of the template." },
+        "description": { "type": "string", "description": "Default description for invoices created from this template." },
+        "amount": { "type": "number", "description": "Default amount for invoices created from this template." },
+        "userId": { "type": "string", "description": "The ID of the user who owns this template." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the template was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the template was last updated." }
+      },
+      "required": ["name", "description", "amount", "userId", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "users",
+      "description": "User profiles collection."
+    },
+    "/customers/{customerId}": {
+      "schema": "customers",
+      "description": "Customers collection."
+    },
+    "/invoices/{invoiceId}": {
+      "schema": "invoices",
+      "description": "Invoices collection."
+    },
+    "/invoice_templates/{templateId}": {
+      "schema": "invoice_templates",
+      "description": "Invoice templates collection."
+    }
+  }
+}

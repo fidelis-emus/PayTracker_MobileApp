@@ -1,0 +1,9 @@
+{
+  "name": "PayFlow",
+  "description": "Smart collections and payment tracking for businesses and freelancers. Track debts, send reminders, and manage invoices seamlessly.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
